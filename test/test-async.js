@@ -815,6 +815,21 @@ exports['filterSeries'] = function(test){
     });
 };
 
+exports['filter preserves exception'] = function(test){
+    var a = [1];
+    async.filter(a, function(x, callback){
+        try {
+            callback();
+        }
+        except {
+            // we should not end up here
+        }
+    }, function(results){
+        throw new Error("Oups")
+    });
+};
+
+
 exports['select alias'] = function(test){
     test.equals(async.select, async.filter);
     test.done();
